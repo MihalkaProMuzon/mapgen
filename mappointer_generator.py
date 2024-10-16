@@ -101,8 +101,6 @@ def generate_points(args):
 ########################################################################################
     
 
-# !!! Теперь соединенин у точки - словарь, с расстояниями (а не просто массив индексов)!
-
 def gen_links1(points, args):
     # # # # # #
     _link_distance_threshold = args["link_distance_threshold"] or 1.0
@@ -120,7 +118,6 @@ def gen_links1(points, args):
     for i, point_a in enumerate(points):
         links[i] = { 
             "link_points": {}, 
-            "type": "simple_link",
             "disctances": {},
         }
     print_rewrite(f"{bcolors.OKGREEN} • Инициализация связей")
@@ -142,8 +139,8 @@ def gen_links1(points, args):
 
                 if dst < _link_distance_threshold:
                     if not j in lnk["link_points"]:
-                        lnk["link_points"][j] = dst
-                        lnk2["link_points"][i] = dst
+                        lnk["link_points"][j] = "simple_link"
+                        lnk2["link_points"][i] = "simple_link"
     print_rewrite(f"{bcolors.OKGREEN} • Соединие по расстоянию {pointsCnt} / {pointsCnt}")
 
     # Удалить по [min <-> max] и delete chance
@@ -257,8 +254,8 @@ def gen_links1(points, args):
                     closest_in_subg = point_i
 
         # Соденить с найденным сабграфом
-        links[closest_in_subg]["link_points"][colesest_to_subg] = True
-        links[colesest_to_subg]["link_points"][closest_in_subg] = True
+        links[closest_in_subg]["link_points"][colesest_to_subg] = 'simple_link'
+        links[colesest_to_subg]["link_points"][closest_in_subg] = 'simple_link'
 
         finded_subg_index = point_subgraphs[colesest_to_subg]
         

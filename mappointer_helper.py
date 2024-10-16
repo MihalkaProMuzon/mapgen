@@ -12,7 +12,7 @@ class bcolors:
     HEADER = '\033[95m'
     OKCYAN = '\033[96m'
     OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
+    WARNING = '\033[31m'
     RESET = '\033[0m'
 
 def normalize(v):
@@ -41,17 +41,41 @@ def print_rewrite(text):
 
 
 
-def path_finder_iter(points,path,visted):
+def path_finder(links, point_from_i, point_to_i):    
+    nbrs = [point_from_i]
+    next_nbrs = []
 
+    distances = {point_from_i: {"dst": 0}}
 
-def path_finder(links, point_from_i, point_to_i):
-    lnk_point_from = links[point_from_i]
-    lnk_point_to = links[point_to_i]
+    i = 0
+    while(True):
+        if len(nbrs) < 1:
+            break
+        
+        i += 1
+        print_rewrite(f"{bcolors.OKCYAN}Прокладываем маршрут #{i}")
+        for p_i in nbrs:
+            dst = distances[p_i]["dst"] + 1
+            for nbr_p_i in links[p_i]["link_points"]:
+                if nbr_p_i not in distances:
+                    distances[nbr_p_i] = {
+                        "dst": dst,
+                        "lnk": p_i
+                    }
+                    next_nbrs.append(nbr_p_i)
+
+                if distances[nbr_p_i]["dst"] > dst:
+                    distances[nbr_p_i]["dst"] = dst
+                    distances[nbr_p_i]["lnk"] = p_i
+                    next_nbrs.append(nbr_p_i)
+
+        nbrs = next_nbrs
+        next_nbrs = []
     
+    if point_to_i not in distances:
+        print_rewrite(f"{bcolors.WARNING}Маршрут не найден;")
+        return
     
+    print_rewrite(f"{bcolors.OKGREEN} Длина найденого маршрута - {distances[point_to_i]["dst"]}; {bcolors.RESET}")
 
-    
-    lnk_point_from_nbrs = lnk_point_from["link_points"]
-    for lnk in lnk_point_from_nbrs:
-        path = path_finder_iter()
-
+    return distances

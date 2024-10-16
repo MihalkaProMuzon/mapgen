@@ -11,7 +11,7 @@ POINT_TYPES = {                             # Настрой точке
     },
     "selected": {                      
         "point_size": 0.12,                  
-        "point_col": (1.0, 0.6, 0.4),       
+        "point_col": (0.8, 1.0, 0.6),       
     },
 }
 LINK_TYPES = {                              # Настрой палке
@@ -20,9 +20,9 @@ LINK_TYPES = {                              # Настрой палке
         "lines_count": 1,                   # Многость палок (1 - палка без понтов этих фраерских)
         "lines_spread": 0,                  # Наскока размотало палки
     },
-    "quadrilpe_link": {
-        "line_col": (0.4, 0.2, 0.0),       
-        "lines_count": 1,                   
+    "selected_link": {
+        "line_col": (0.7, 0.9, 0.5),       
+        "lines_count": 2,               
         "lines_spread": 0.01,               
     }
 }
@@ -36,8 +36,8 @@ GLARE_POWER = 0.45                  # Сильно моргнуть
 ARROWS_SENSITIVITY = 1              # С какой силой смотреть
 MOUSE_SENSITIVITY = 0.13            # Как мощьно вглядываться
 
-MOV_SPEED_BOOSTED = 0.25            # Двигать быстро
-MOV_SPEED_BASE = 0.05               # Двигать пойдет
+MOV_SPEED_BOOSTED = 0.35            # Двигать быстро
+MOV_SPEED_BASE = 0.08               # Двигать пойдет
 
 MOUSE_RETURN_DISTANCE = 200         # Вот мышью водишь, она шоб в край экрана не въебаться 
                                     # переодически возвращается вот вот это крч

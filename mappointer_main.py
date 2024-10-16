@@ -10,16 +10,22 @@ from OpenGL.GLUT import *
 import colorama
 
 import mappointer_generator as mapgen
-import mappointer_play as mapplay
+import mappointer_play as play
 from mappointer_helper import *
 from mappointer_config import *
 
-
 colorama.init()
 
-points = mapgen.generate_points(points_args)
-links = mapgen.create_links(points, links_args)
-mapgen.test(points, links)
+
+class Map:
+	points = mapgen.generate_points(points_args)	
+	links = mapgen.create_links(points, links_args)
+	selected_points = {}
+	selected_links = {}
+
+play.Map = Map
+
+mapgen.test(Map.points, Map.links)
 print(bcolors.RESET)
 
 def draw_point(point, tick, index):
@@ -48,11 +54,11 @@ def draw_point(point, tick, index):
 	
 	glPopMatrix()
 
-def draw_line(link,pos1,pos2):
-    if not link["type"] in LINK_TYPES:
+def draw_line(link_type, pos1,pos2):
+    if not link_type in LINK_TYPES:
     	print(f"Палки {link["type"]} не имеют параметров отрисовки!")
     	return
-    param = LINK_TYPES[link["type"]]
+    param = LINK_TYPES[link_type]
 
     glBegin(GL_LINES)
     glColor3f(*param["line_col"])
@@ -154,6 +160,8 @@ def main():
 
 	while True:
 		tick = pygame.time.get_ticks()
+		points = Map.points
+		links = Map.links
 		# Some cam math ##############################			#
 		
 		camera_rotation = np.array([[0, 0, 1],
@@ -230,18 +238,18 @@ def main():
 			mov_speed = MOV_SPEED_BASE
 
 		if key_state["actionA"]:
-			mapplay.actionA(points, links)
+			play.actionA()
 			key_state["actionA"] = False
 		if key_state["actionB"]:
-			mapplay.actionB(points, links)
+			play.actionB()
 			key_state["actionB"] = False
 		if key_state["actionC"]:
-			mapplay.actionC(points, links)
+			play.actionC()
 			key_state["actionC"] = False
 
 		if key_state["action1"]:
 			mpos = pygame.mouse.get_pos()
-			mapplay.raycast_select(points, mpos, camera_pos, camera_front)
+			play.raycast_select(mpos, camera_pos, camera_front)
 			key_state["action1"] = False
 
 		if key_state["action2"]:
@@ -288,12 +296,12 @@ def main():
 		drawed_links = {}
 		for link_indx, linkV in links.items():
 			p1 = points[link_indx]
-			for p2_indx, _ in linkV['link_points'].items():
+			for p2_indx, link_type in linkV['link_points'].items():
 				k1 = f"{link_indx}-{p2_indx}"
 				k2 = f"{p2_indx}-{link_indx}"
 				if not ((k1 in drawed_links) or (k2 in drawed_links)):
 					p2 = points[p2_indx]
-					draw_line(linkV, p1["pos"], p2["pos"])
+					draw_line(link_type, p1["pos"], p2["pos"])
 					drawed_links[k1] = True
 					drawed_links[k2] = True
 
