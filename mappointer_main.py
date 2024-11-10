@@ -30,7 +30,7 @@ print(bcolors.RESET)
 
 def draw_point(point, tick, index):
 	if not point["type"] in POINT_TYPES:
-		print(f"Для точек {point["type"]} не заданы параметры отрисовки!")
+		print(f"Для точек {point['type']} не заданы параметры отрисовки!")
 		return
 
 	param = POINT_TYPES[point["type"]]
@@ -56,7 +56,7 @@ def draw_point(point, tick, index):
 
 def draw_line(link_type, pos1,pos2):
     if not link_type in LINK_TYPES:
-    	print(f"Палки {link["type"]} не имеют параметров отрисовки!")
+    	print(f"Палки {link['type']} не имеют параметров отрисовки!")
     	return
     param = LINK_TYPES[link_type]
 
@@ -309,8 +309,6 @@ def main():
 		for point in points:
 			draw_point(point,tick,pI)
 			pI+=1;
-	
-		#mapplay.select_point(points, 0)
 
 		pygame.display.flip()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
@@ -319,17 +317,17 @@ def main():
 
 print()
 print("###############################################################")
-print("###  MapPointer generator (yaw & pitch - mazafuckaBITCH!) #####")
+print("####                  MapPointer generator                #####")
 print()
-print(" [ WASD   ] - шароёбиться туда сюда")
-print(" [ EQ     ] - матыляться вверх/невверх")
-print(" [ SHIFT  ] - раздавить тапку")
-print(" [ ARROWS ] - вглядываться")
-print(" [ 1	 	 ] - убери все точке")
-print(" [ 2 	 ] - как ходить")
-print(" [Жмаш мышь левую] - Клацаешь точке")
-print(" [Жмаш мышь правая] -  она захавается и можно уже смотреть тоже")
-print("  [  Z     ] - все теперь не хочу")
+print(" [ WASD   ] - Передвижение")
+print(" [ EQ     ] - Вверх вниз")
+print(" [ SHIFT  ] - Ускорить движение")
+print(" [ ARROWS ] - Вращение камеры")
+print(" [ 1      ] - Снять все выделения")
+print(" [ 2      ] - Проложить маршрут между 2 точками")
+print(" [Левая кл. мыши ] - Выделение вершины перед камерой")
+print(" [Правая кл. мыши] -  Вкл./Выкл. вращение камеры")
+print("  [  Z    ] - Закрыть программу")
 print()
 print("###############################################################")
 print()
